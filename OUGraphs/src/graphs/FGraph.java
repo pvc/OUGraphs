@@ -16,7 +16,7 @@ import org.pv.core.Utils;
 public class FGraph {
 	static Utils utils = Utils.getSingleton();
 	DoubleUnaryOperator function;
-	ScalarSequence x,y;
+	ScalarSequence x,y; 
 	
 	public FGraph() {}
 	public FGraph(DoubleUnaryOperator function) {
@@ -24,7 +24,8 @@ public class FGraph {
 	}
 	public FGraph(DoubleUnaryOperator function,ScalarSequence x) {
 		this.function=function;
-		this.x=x;
+		this.x=x; 
+		
 	}
 
 	// Method called to run the class
@@ -32,8 +33,8 @@ public class FGraph {
 		p("Starting run of FGraph at " + new Date());
 		StopWatch t=utils.getTimer();
 //		utils.sleep(1000);
-//		test();
-		logs();
+		test();  
+//		logs();    
 		p("Finished run of FGraph at " + new Date());
 		p("Elapsed: "+t.getTotalElapsed()+" seconds");
 		
@@ -54,13 +55,13 @@ public class FGraph {
 		
 	}
 	public void test() {
-		x=new ScalarSequence(IntStream.rangeClosed(10, 20).mapToDouble(i->(double)i).toArray());
+		x=new ScalarSequence(IntStream.rangeClosed(5, 20).mapToDouble(i->(double)i).toArray());
 		function=(x->2*x);
 //		DoubleStream.of(10, 20).map((i)->{p(""+i);return 0.;});
 //		DoubleStream.generate(s);
 		y=new ScalarSequence(x.stream().map(function).toArray());
-		y.dump();
-		new Graph(200,200).add(x,y).display();
+//		y.dump();
+		new Graph(300,300).add(x,y).display();
 		
 	}
 

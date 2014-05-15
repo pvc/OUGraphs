@@ -137,34 +137,40 @@ public class Graph {
 			if (true) {
 				gc.drawLine(xaxis[0],xaxis[1],xaxis[2],xaxis[3]); // x1,y1,x2,y2
 				if (xTicksSet) {
-					p("Starting xtixks");
+//					p("Starting xticks");
 					for (int i = 0; i < xticks.length; i++) {
-						p("Starting xtick "+i);
+//						p("Starting xtick "+i);
 						int pos=xticks[i];
-						if (i!=xTickOrigin) {
+//						if (i!=xTickOrigin) {
 							String label=df.format(xtickVals[i]);
 							Point rect=gc.textExtent(label);
-							gc.drawText(label, pos-(rect.x/2), xaxis[1]+5+rect.y);
-							p("Drawn at "+(pos-(rect.x/2))+" "+(xaxis[1]+5+rect.y));
-							gc.drawLine(pos,xaxis[1],pos,xaxis[1]+5);
-						}
+//							gc.drawText(label, pos-(rect.x/2), xaxis[1]+5+rect.y);
+							gc.drawText(label, pos-(rect.x/2), xaxis[1]-5-rect.y);
+//							p("Drawn at "+(pos-(rect.x/2))+" "+(xaxis[1]+5+rect.y));
+//							gc.drawLine(pos,xaxis[1],pos,xaxis[1]+5);
+							gc.drawLine(pos,xaxis[1],pos,xaxis[1]-5);
+//						}
 					}
 				}
 				if (xMinorTicksSet) {
 					for (int i = 0; i < xMinorTicks.length; i++) {
 						int pos=xMinorTicks[i];
-						if (i!=xMinorTickOrigin) {
+//						if (i!=xMinorTickOrigin) {
 						gc.drawLine(pos,xaxis[1],pos,xaxis[1]-3);
-						}
+//						}
 					}
 				}
 			}		
-			if (yAxisVisible) {
+//			if (yAxisVisible) {
+			if (true) {
+//				utils.dump(yaxis);
+//				utils.dump(yticks);
+//				utils.dump(ytickVals);
 				gc.drawLine(yaxis[0],yaxis[1],yaxis[2],yaxis[3]);
 				if (yTicksSet) {
 					for (int i = 0; i < yticks.length; i++) {
 						int pos=yticks[i];
-						if (i!=yTickOrigin) {
+//						if (i!=yTickOrigin) {
 							//						p(""+i+":"+yaxis[0]+","+pos);
 							String label=df.format(ytickVals[i]);
 							Point rect=gc.textExtent(label);
@@ -172,15 +178,15 @@ public class Graph {
 //							gc.drawText(label,yaxis[0]-rect.x-10,pos-(rect.y/2));
 							gc.drawText(label,yaxis[0]+5,pos-(rect.y/2));
 
-						}
+//						}
 					}
 				}
 				if (yMinorTicksSet) {
 					for (int i = 0; i < yMinorTicks.length; i++) {
 						int pos=yMinorTicks[i];
-						if (i!=yMinorTickOrigin) {
+//						if (i!=yMinorTickOrigin) {
 							gc.drawLine(yaxis[0],pos,yaxis[0]-3,pos);
-						}
+//						}
 					}
 				}
 				//			gc.drawLine(yaxis[0],100,yaxis[0]-10,100);
@@ -303,27 +309,35 @@ public class Graph {
 		xAxisVisible = yAxisVisible = false;
 			if (maxx >= 0 && minx <= 0) {yAxisVisible=true;}
 			if (maxy >= 0 && miny <= 0) {xAxisVisible=true;}
+//			p("Visibility=x:"+xAxisVisible+"; y:"+yAxisVisible);
 			xaxis = new int[] { 0, (int) (0.5 + maxy / ypixel), size.x,(int) (0.5 + maxy / ypixel) };
-			if (!xAxisVisible) {xaxis[1]=xaxis[3]=0;}
+			if (!xAxisVisible) {xaxis[1]=xaxis[3]=size.y;}
+//			p(xaxis[1]+";"+xaxis[3]);
 			yaxis = new int[] { (int) (0.5 - minx / xpixel), 0,(int) (0.5 - minx / xpixel), size.y };
-		
+			if (!yAxisVisible) {yaxis[0]=yaxis[2]=0;}
 			
 //			if (xTicksSet && xAxisVisible ) {
 			if (xTicksSet) {
 			double tick = xTickUnit / xpixel; // #pixels/tick unit
 			// p("tick="+tick);
-			int originx = yaxis[0];
-			int tickStart = (int) Math.ceil(minx / xTickUnit);
+//			int originx = yaxis[0];
+			int tickStart = (int) Math.ceil(minx / xTickUnit); 
+			int startIndent= (int)((tickStart*xTickUnit-minx)/xpixel);  // indent of first tick in pixels
 			int tickEnd = (int) Math.floor(maxx / xTickUnit);
 			int nticks = tickEnd - tickStart + 1;
-			xTickOrigin = -tickStart;
-			// p("nticks="+nticks);
+//			xTickOrigin = -tickStart;
+//			 p("nticks="+nticks);
+//			 p("tickUnit="+xTickUnit);
+//			 p("tickStart="+tickStart);
+//			 p("Indent="+startIndent);
 			xticks = new int[nticks];
 			xtickVals = new double[nticks];
 			for (int n = tickStart; n <= tickEnd; n++) {
-				xticks[n - tickStart] = originx + (int) (n * tick);
+				xticks[n - tickStart] = startIndent + (int) ((n-tickStart) * tick);
 				xtickVals[n - tickStart] = n * xTickUnit;
 			}
+//			utils.dump(xticks);
+//			utils.dump(xtickVals);
 			if (xMinorTicksSet) {
 				tick = xMinorTickUnit / xpixel; // #pixels/tick unit
 				// p("tick="+tick);
@@ -334,23 +348,25 @@ public class Graph {
 				// p("nticks="+nticks);
 				xMinorTicks = new int[nticks];
 				for (int n = tickStart; n <= tickEnd; n++) {
-					xMinorTicks[n - tickStart] = originx + (int) (n * tick);
+					xMinorTicks[n - tickStart] = startIndent + (int) (n * tick);
 				}
 			}
 		}
-		if (yTicksSet && yAxisVisible) {
+//			if (yTicksSet && yAxisVisible) {
+		if (yTicksSet) {
 			double tick = yTickUnit / ypixel; // #pixels/tick unit
 			// p("tick="+tick);
-			int originy = xaxis[1];
+//			int originy = xaxis[1];
 			int tickStart = (int) Math.ceil(miny / yTickUnit);
+			int startIndent= (int)((tickStart*yTickUnit-miny)/ypixel);  // indent of first tick in pixels
 			int tickEnd = (int) Math.floor(maxy / yTickUnit);
 			int nticks = tickEnd - tickStart + 1;
-			yTickOrigin = -tickStart;
+//			yTickOrigin = -tickStart;
 			// p("nticks="+nticks);
 			yticks = new int[nticks];
 			ytickVals = new double[nticks];
 			for (int n = tickStart; n <= tickEnd; n++) {
-				yticks[n - tickStart] = originy - (int) (n * tick);
+				yticks[n - tickStart] = size.y - startIndent - (int) ((n-tickStart) * tick);
 				ytickVals[n - tickStart] = n * yTickUnit;
 			}
 			if (yMinorTicksSet) {
@@ -363,7 +379,7 @@ public class Graph {
 				// p("nticks="+nticks);
 				yMinorTicks = new int[nticks];
 				for (int n = tickStart; n <= tickEnd; n++) {
-					yMinorTicks[n - tickStart] = originy + (int) (n * tick);
+					yMinorTicks[n - tickStart] = size.y-startIndent - (int) (n * tick);
 					// p(""+n+":"+yMinorTicks[n-tickStart]);
 				}
 			}
