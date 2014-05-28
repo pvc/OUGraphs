@@ -3,6 +3,8 @@
  */
 package graphs;
 import java.util.Date;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
 
 import org.pv.core.Utils;
 
@@ -44,4 +46,8 @@ public class XSequence extends ScalarSequence {
 		if (simple) {return n;} else {return min+n*(max-min)/(index-1);}
 		}
 	public int max(int first, int last) {return last;}
+	public DoubleStream stream() {
+		final double inc=(max-min)/(index-1);
+		return IntStream.range(0,index).mapToDouble(n->min+n*inc);
+	}
 }

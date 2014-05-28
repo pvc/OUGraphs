@@ -50,12 +50,12 @@ public class Residues {
 	private double intShowResidues(int fibIndex) {
 		q=Fibs.get(fibIndex);
 //		int nterms = (q-1)/2;
-		int nterms = q-1;
-		int ri=0;double sum=0;int last=0;
+		long nterms = q-1;
+		long ri=0;double sum=0;long last=0;
 		p=Fibs.get(fibIndex-1);
-		int max=0;int maxAt=0;
+		long max=0;long maxAt=0;
 		double lastSign=-1;
-		for (int n=1;n<q/2;n++) {
+		for (long n=1;n<q/2;n++) {
 			ri+=p;
 			if (ri>q) {ri-=q;}
 			double rd=(ri/(double)q)-0.5;
@@ -77,15 +77,15 @@ public class Residues {
 	private double intResidueSum(int fibIndex) {
 		q=Fibs.get(fibIndex);
 //		int nterms = (q-1)/2;
-		int nterms = q-1;
-		int rd=0;int sum=0;int last=0;
+		long nterms = q-1;
+		long rd=0;long sum=0;long last=0;
 		p=Fibs.get(fibIndex-1);
-		int max=0;int maxAt=0;
-		for (int n=1;n<q/2;n++) {
+		long max=0;long maxAt=0;
+		for (long n=1;n<q/2;n++) {
 			rd+=p;
 			if (rd>q) {rd-=q;}
 			sum+=(2*rd-q);
-			int abs=Math.abs(sum);
+			long abs=Math.abs(sum);
 			if (abs>max) {max=abs;maxAt=n;}
 		}
 		p("Fib "+fibIndex+"="+q+"; max="+max/(double)(2*q)+" at "+maxAt);

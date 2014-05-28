@@ -45,7 +45,7 @@ public class Graph {
 	Shell shell;
 	int[] shape;
 	// XYSet xy;
-	final Point size;
+	Point size;
 
 	protected int graphType = LINEGRAPH;
 	final private Display display = Display.getCurrent();
@@ -110,7 +110,17 @@ public class Graph {
 	public Graph(Point graphSize) {
 		size=graphSize;
 	}
-
+	public Graph setSize(Point graphSize) {
+		size=graphSize;
+		return this;
+	}
+	public Graph setSize(int x, int y) {
+		return setSize(new Point(x, y));
+	}
+	public Graph setSize(int nPoints) {
+		return setSize(new Point(nPoints,nPoints));
+	}
+	
 	/**
 	 * @param size2
 	 * @return
@@ -595,6 +605,7 @@ public class Graph {
 	}
 	
 	public double defaultTick(double range) {
+	if (range==0) {return 1;}	
 	double log = Math.log10(range/3);
 	double exp = Math.floor(log);
 	double mant = log-exp;

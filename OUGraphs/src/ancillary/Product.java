@@ -12,8 +12,10 @@ import org.pv.core.Utils;
  *
  */
 public class Product {
-	final Utils utils = Utils.getSingleton();
+	final static Utils utils = Utils.getSingleton();
 	int start=1,end=1;
+	public Product() {}
+	public Product(int endInclusive) {this.end=endInclusive;}
 	public Product(int startInclusive, int endInclusive) {
 		this.start=startInclusive;
 		this.end=endInclusive;
@@ -22,7 +24,9 @@ public class Product {
 	// Method called to run the class
 	public void run() {
 		p("Starting run of Product at " + new Date());
-		// TODO insert code here
+//		p(new Product(1,10));
+		final double w=0.5*(Math.sqrt(5)-1);
+		p(Product.over(1,3).of(n->2*Math.sin(Math.PI*w*n)));
 		p("Finished run of Product at " + new Date());
 	}
 

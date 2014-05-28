@@ -27,8 +27,8 @@ public class For {
 		// TODO insert code here
 		p("Finished run of For at " + new Date());
 	}
-	public static For intOf(int startInclusive,int endExclusive) {
-		return new For(IntStream.range(startInclusive,endExclusive));
+	public static IntStream intOf(int startInclusive,int endExclusive) {
+		return IntStream.range(startInclusive,endExclusive);
 	}
 	public static IntStream ints(int startInclusive,int endInclusive) {
 		return IntStream.range(startInclusive,endInclusive);

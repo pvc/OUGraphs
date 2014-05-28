@@ -28,7 +28,7 @@ public class DedekindSum {
 		p("Starting run of DedekindSum at " + new Date());
 //		p(""+(-2.65%-1));
 //		calc(28);
-		XY xy = new XY(new XSequence(9,27), n->dedSum(n));
+		XY xy = new XY(new XSequence(9,27), n->dedSum((int) n));
 //		xy.plot();
 		xy.dump();
 //		Graphs.plot(new XSequence(9,27), n->dedSum(n)).display();
@@ -39,11 +39,11 @@ public class DedekindSum {
 	/*
 	 * Calculate the semi Dedekind sum of cot x alphat
 	 */
-	public double dedSum(long n) {
+	public double dedSum(int n) {
 		final int sign;
 		if (n%2==0) {sign=1;} else {sign=-1;}
 //		p("Sign="+sign);
-		final long q=Fibs.get(n);
+		final int q=Fibs.get(n);
 		final double pbyq=Fibs.get(n-1)/(double)q;
 		final double wn=sign*Math.pow(w,n);
 //		p("wn:"+wn);

@@ -14,6 +14,10 @@ import java.util.stream.IntStream;
 
 import javax.imageio.ImageIO;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.internal.compiler.ast.CaseStatement;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -402,11 +406,11 @@ public class MultiGraph {
 //		shell.setLocation(60,0);
 		shell.open();
 //		save("C:/OUGraphs/Latest.pdf");
-		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch()) {
-				display.sleep();
-			}
-		}
+//		while (!shell.isDisposed()) {
+//			if (!display.readAndDispatch()) {
+//				display.sleep();
+//			}
+//		}
 		return this;
 
 
