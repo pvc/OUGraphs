@@ -31,7 +31,10 @@ public class P {
 		double period=1;
 		double rotationNumber=0.5*(Math.sqrt(5)-1);
 		double initialCondition=0;
-//		double multiplier=Math.PI;
+public void setInitialCondition(double initialCondition) {
+			this.initialCondition = initialCondition%1;
+		}
+		//		double multiplier=Math.PI;
 		double currentValue;
 		public void reset() {currentValue=initialCondition;}
 		@Override
@@ -64,12 +67,15 @@ public class P {
 //		new Graph().add(x,new ScalarSequence(calcOverInitialCondition(x))).display();
 //		new Graph().add(new ScalarSequence(calcOverOrbit(500))).display();
 		
-//		XSequence x = new XSequence(0,2,200);
-//		XSequence w = new XSequence(0.5,0.9,200);
+		XSequence x = new XSequence(0,2,200);
+		XSequence w = new XSequence(0.5,1,200);
 		MultiGraph mg = new MultiGraph(3);
-//		For.intOf(1,65).peek(n->nIterations=n).forEach(n->mg.add(new Graph(200).add(x,new ScalarSequence(calcOverInitialCondition(x)))));
-//		For.intOf(1,65).peek(n->nIterations=n).forEach(n->mg.add(new Graph(200).add(w,new ScalarSequence(calcOverRotationNumber(w).map(z->Math.log(Math.abs(z)+1))))));
-		For.intOf(5,25).map(n->Fibs.get(n)).peek(n->p("Processing:"+n)).forEach(n->mg.add(new Graph(200).add(new ScalarSequence(calcOverOrbit(n)))));
+		// Graphs of Pn(w,x) fixed w, varying initial condition - fairly random!
+//		For.intInc(1,65).peek(n->nIterations=n).forEach(n->mg.add(new Graph(200).add(x,new ScalarSequence(calcOverInitialCondition(x)))));
+//		Graphs of Pn(w) over w (at x=0) showing exp growth of norm
+//		For.ints(6,12,18,60).peek(n->nIterations=n).forEach(n->mg.add(new Graph(200).add(w,new ScalarSequence(calcOverRotationNumber(w)/*.map(z->Math.log(Math.abs(z)+1))*/)).addText(100, 10, "n="+n)));
+//		Graphs of Pn(w) over n at x=0 for various n showing linear growth of peaks
+		For.ints(8,11,14).map(n->Fibs.get(n)).forEach(n->mg.add(new Graph(200).add(new XSequence(1, n), new ScalarSequence(calcOverOrbit(n)/*.map(x->Math.log(x))*/)).addText(100, 10, "n=1 to "+n)));
 		mg.display();
 		p("Finished run of P at " + new Date());
 	}
@@ -77,15 +83,15 @@ public class P {
 	DoubleStream calcn(IntStream n) {
 		return n.mapToDouble(prod);
 	}
-	double[] calcOverOrbit(int n) {
-		double[] res = new double[n+1];
-		res[0]=1;
+	DoubleStream calcOverOrbit(int n) {
+		double[] prod = new double[1];
+		prod[0]=1;
 		baseMap.reset();
-		IntStream.rangeClosed(1, n).forEach(m->{
+		return IntStream.rangeClosed(1, n).mapToDouble(m->{
 			double factor=baseToFibre.applyAsDouble(baseMap.applyAsDouble(m));
-			if (m==1) {res[m]=factor;} else {res[m]=res[m-1]*factor;}
+			prod[0]*=factor;
+			return prod[0];
 		});
-	return res;
 	}
 	DoubleStream calcOverOrbit(IntStream subSequence) {
 		return subSequence.mapToDouble(n->{
@@ -109,7 +115,7 @@ public class P {
 	DoubleStream calcOverInitialCondition(ScalarSequence x) {
 		return x.stream().map(z->{
 			double result=1;
-			baseMap.initialCondition=z;
+			baseMap.setInitialCondition(z);
 			baseMap.reset();
 			for (int i=1;i<=nIterations;i++) {result*=baseToFibre.applyAsDouble(baseMap.applyAsDouble(i));}
 			return result;

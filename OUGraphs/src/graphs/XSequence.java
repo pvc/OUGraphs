@@ -31,7 +31,8 @@ public class XSequence extends ScalarSequence {
 	 * @param j
 	 */
 	public XSequence(int i, int j) {
-		// TODO Auto-generated constructor stub
+		init(j-i);min=i;max=j;minAt=0;maxAt=j;
+		simple=false;
 	}
 	void init(int n) {
 		index=n+1;max=n;maxAt=n;min=0;minAt=0;

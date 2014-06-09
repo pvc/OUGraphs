@@ -27,13 +27,13 @@ public class For {
 		// TODO insert code here
 		p("Finished run of For at " + new Date());
 	}
-	public static IntStream intOf(int startInclusive,int endExclusive) {
+	public static IntStream intExc(int startInclusive,int endExclusive) {
 		return IntStream.range(startInclusive,endExclusive);
 	}
-	public static IntStream ints(int startInclusive,int endInclusive) {
-		return IntStream.range(startInclusive,endInclusive);
+	public static IntStream ints(int... ints) {
+		return IntStream.of(ints);
 	}
-	public static IntStream intOfInc(int startInclusive,int endInclusive) {
+	public static IntStream intInc(int startInclusive,int endInclusive) {
 		return IntStream.range(startInclusive,endInclusive);
 	}
 	public static IntStream intOf(int endExclusive) {

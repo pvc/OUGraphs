@@ -18,7 +18,7 @@ public class Fibs {
 		fibsLong[0]=0;fibsLong[1]=1;
 		for (int n=2;n<nVals;n++) {
 			fibsLong[n]=fibsLong[n-1]+fibsLong[n-2];
-			p(""+n+"="+fibsLong[n]);
+//			p(""+n+"="+fibsLong[n]);
 		}
 	}
 
@@ -41,7 +41,6 @@ public class Fibs {
 		return fibsLong[fibIndex];
 	}
 	public static int get(int fibIndex) {
-		p("evaluating:"+fibIndex);
 		return (int)fibsLong[fibIndex];
 	}
 	

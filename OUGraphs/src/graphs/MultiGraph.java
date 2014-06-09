@@ -109,6 +109,7 @@ public class MultiGraph {
 		return this;
 	}
 	public ArrayList<Graph> generateGraphs() {
+		if (engine==null) {graphs=new ArrayList<Graph>(0);} else {
 	data=engine.getData();xValues=engine.getXValues();
 	graphs=new ArrayList<Graph>(data.length);
 	
@@ -118,6 +119,7 @@ public class MultiGraph {
 //		g.addText(10, 10, "n="+(start+n));
 		graphs.add(g);
 	});
+		}
 	return graphs;
 	}
 
